@@ -1,7 +1,4 @@
-// entity/person.dart
-
-import 'dart:ffi';
-
+//import 'dart:ffi';
 import 'package:floor/floor.dart';
 
 @entity
@@ -11,10 +8,10 @@ class Pokemon {
 
   final String nome;
   final String tipo;
-  final String experiencia;
+  final String altura;
   final String habilidade;
-  final String oculta;
+  final String peso;
 
-  Pokemon(this.id, this.nome, this.tipo, this.experiencia, this.habilidade,
-      this.oculta);
+  Pokemon(
+      this.id, this.nome, this.tipo, this.altura, this.habilidade, this.peso);
 }

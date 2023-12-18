@@ -111,9 +111,9 @@ class _$PokemonDao extends PokemonDao {
                   'id': item.id,
                   'nome': item.nome,
                   'tipo': item.tipo,
-                  'experiencia': item.experiencia,
+                  'experiencia': item.altura,
                   'habilidade': item.habilidade,
-                  'oculta': item.oculta
+                  'oculta': item.peso
                 },
             changeListener),
         _pokemonDeletionAdapter = DeletionAdapter(
@@ -124,9 +124,9 @@ class _$PokemonDao extends PokemonDao {
                   'id': item.id,
                   'nome': item.nome,
                   'tipo': item.tipo,
-                  'experiencia': item.experiencia,
+                  'altura': item.altura,
                   'habilidade': item.habilidade,
-                  'oculta': item.oculta
+                  'peso': item.peso
                 },
             changeListener);
 
