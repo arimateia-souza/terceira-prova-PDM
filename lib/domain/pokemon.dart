@@ -1,15 +1,20 @@
-class Pokemon {
-  static const String pokeTable = "jogoTable";
-  static const String idColumn = "id";
-  static const String nomeColumn = "nome";
-  static const String tipoColumn = "tipo";
-  static const String expColumn = "experincia";
-  static const String vidaColumn = "vida";
-  static const String habilidadeColumn = "habilidade";
+// entity/person.dart
 
-  static const String desenvolvedoresColumn = "desenvolvedores";
-  static const String anoPublicacaoColumn = "anoPublicacao";
-  static const String modosDeJogoColumn = "modosDeJogo";
-  static const String precoColumn = "preco";
-  static const String avaliacaoColumn = "avaliacao";
+import 'dart:ffi';
+
+import 'package:floor/floor.dart';
+
+@entity
+class Pokemon {
+  @primaryKey
+  final int id;
+
+  final String nome;
+  final String tipo;
+  final String experiencia;
+  final String habilidade;
+  final String oculta;
+
+  Pokemon(this.id, this.nome, this.tipo, this.experiencia, this.habilidade,
+      this.oculta);
 }

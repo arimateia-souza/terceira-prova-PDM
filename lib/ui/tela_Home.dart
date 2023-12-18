@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:terceira_prova/ui/tela_Captura.dart';
 import 'tela_sobre.dart';
 
 class TelaHome extends StatelessWidget {
@@ -10,13 +11,25 @@ class TelaHome extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tela home'),
         actions: [
-          //sobre os desenvolvedores
+          // Sobre os desenvolvedores
           IconButton(
             icon: const Icon(Icons.info),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const TelaSobre()),
+              );
+            },
+          ),
+          // Captura
+          IconButton(
+            icon: const Icon(Icons.photo), //mudar icon depois
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const TelaSobre()), //alterar quando tiver ok
               );
             },
           ),
