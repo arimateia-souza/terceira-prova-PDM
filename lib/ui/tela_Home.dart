@@ -9,55 +9,46 @@ class TelaHome extends StatefulWidget {
   _TelaHomeState createState() => _TelaHomeState();
 }
 
-class _TelaHomeState extends State<TelaHome> {
-  int _selectedIndex = 0;
-  final List<Widget> _telas = [
-    const TelaHomeConteudo(),
-    TelaCaptura(),
-    //TelaPokemonCapturado(),
-    const TelaSobre(),
-  ];
+class _TelaHomeState extends State<TelaHome>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController(length: 3, vsync: this); // Defina o número de abas aqui
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.home), text: 'Home'),
+            Tab(icon: Icon(Icons.add), text: 'Captura'),
+            Tab(icon: Icon(Icons.info), text: 'Sobre'),
+          ],
+        ),
       ),
-      body: _telas[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        //backgroundColor: Colors.yellow, // Defina a cor de fundo aqui
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.red, // Cor dos ícones e rótulos selecionados
-        unselectedItemColor:
-            Colors.yellow, // Cor dos ícones e rótulos não selecionados
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Captura',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.catching_pokemon),
-            label: 'Capturados',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.admin_panel_settings),
-            label: 'Sobre',
-          ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          const TelaHomeConteudo(),
+          TelaCaptura(),
+          const TelaSobre(),
         ],
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
 
