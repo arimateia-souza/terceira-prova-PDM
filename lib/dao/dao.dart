@@ -3,8 +3,8 @@ import 'package:terceira_prova/domain/pokemon.dart';
 
 @dao
 abstract class PokemonDao {
-  @insert
-  Future<void> insertPokemon(Pokemon pokemon);
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<int> insertPokemon(Pokemon pokemon);
 
   @delete
   Future<void> deletePokemon(Pokemon pokemon);

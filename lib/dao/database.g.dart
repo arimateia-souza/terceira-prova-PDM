@@ -172,8 +172,9 @@ class _$PokemonDao extends PokemonDao {
   }
 
   @override
-  Future<void> insertPokemon(Pokemon pokemon) async {
-    await _pokemonInsertionAdapter.insert(pokemon, OnConflictStrategy.abort);
+  Future<int> insertPokemon(Pokemon pokemon) {
+    return _pokemonInsertionAdapter.insertAndReturnId(
+        pokemon, OnConflictStrategy.replace);
   }
 
   @override

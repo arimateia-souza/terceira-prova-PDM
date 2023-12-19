@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:terceira_prova/ui/telaCaptura.dart';
 import 'package:terceira_prova/ui/tela_Sobre.dart';
 
 class TelaHome extends StatefulWidget {
@@ -12,7 +13,7 @@ class _TelaHomeState extends State<TelaHome> {
   int _selectedIndex = 0;
   final List<Widget> _telas = [
     const TelaHomeConteudo(),
-    //TelaCaptura(),
+    TelaCaptura(),
     //TelaPokemonCapturado(),
     const TelaSobre(),
   ];
