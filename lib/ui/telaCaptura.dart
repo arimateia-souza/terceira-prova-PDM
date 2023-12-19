@@ -17,7 +17,7 @@ class _TelaCapturaState extends State<TelaCaptura> {
   late PokemonDatabaseHelper _pokemonDatabaseHelper;
 
   final String _pokeApiBaseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  final String _apiKey = 'Project PDM';
+  //final String _apiKey = 'Project PDM';
 
   @override
   void initState() {
@@ -106,7 +106,7 @@ class _TelaCapturaState extends State<TelaCaptura> {
           onPressed: capturado ? null : () => _capturarPokemon(pokemon),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
-              capturado ? Colors.grey : Colors.red,
+              capturado ? Colors.grey : Colors.yellow,
             ),
           ),
           child: const Icon(Icons.catching_pokemon),
