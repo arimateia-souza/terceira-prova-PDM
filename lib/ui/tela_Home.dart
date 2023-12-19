@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:terceira_prova/pokeApi.dart';
-import 'package:terceira_prova/ui/tela_Captura.dart';
 import 'package:terceira_prova/ui/tela_Sobre.dart';
 
 class TelaHome extends StatefulWidget {
@@ -11,71 +9,72 @@ class TelaHome extends StatefulWidget {
 }
 
 class _TelaHomeState extends State<TelaHome> {
-  final PokeApi _pokeApi = PokeApi(); // Instância da classe PokeApi
-  Map<String, dynamic>? _apiData;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchDataAndUpdateUI();
-  }
-
-  Future<void> fetchDataAndUpdateUI() async {
-    try {
-      final data = await _pokeApi.fetchData();
-      setState(() {
-        _apiData = data; // Atualiza os dados recebidos da API
-      });
-    } catch (e) {
-      setState(() {
-        _apiData = null; // Limpa os dados em caso de erro
-      });
-      print('Erro ao carregar dados: $e');
-    }
-  }
+  int _selectedIndex = 0;
+  final List<Widget> _telas = [
+    const TelaHomeConteudo(),
+    //TelaCaptura(),
+    //TelaPokemonCapturado(),
+    const TelaSobre(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tela home'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.info),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const TelaSobre()),
-              );
-            },
+        title: const Text('Home'),
+      ),
+      body: _telas[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        //backgroundColor: Colors.yellow, // Defina a cor de fundo aqui
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.red, // Cor dos ícones e rótulos selecionados
+        unselectedItemColor:
+            Colors.yellow, // Cor dos ícones e rótulos não selecionados
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          IconButton(
-            icon: const Icon(Icons.camera_alt),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const TelaCaptura()),
-              );
-            },
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Captura',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.catching_pokemon),
+            label: 'Capturados',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.admin_panel_settings),
+            label: 'Sobre',
           ),
         ],
       ),
-      body: Center(
-        child: _apiData != null
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Nome: ${_apiData!['nome']}',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text('Tipo: ${_apiData!['tipo']}'),
-                  Text('Altura: ${_apiData!['altura']}'),
-                  Text('Habilidade: ${_apiData!['habilidade']}'),
-                  Text('Peso: ${_apiData!['peso']}'),
-                ],
-              )
-            : CircularProgressIndicator(), // Mostra indicador de carregamento
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+}
+
+class TelaHomeConteudo extends StatelessWidget {
+  const TelaHomeConteudo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Projeto avaliativo da 3º unidade da disciplina de PDM',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+        ],
       ),
     );
   }

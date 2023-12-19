@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Pokemon` (`id` INTEGER NOT NULL, `nome` TEXT NOT NULL, `tipo` TEXT NOT NULL, `experiencia` TEXT NOT NULL, `habilidade` TEXT NOT NULL, `oculta` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `pokemon` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `tipos` TEXT NOT NULL, `urlImagem` TEXT NOT NULL, `baseExperiencia` INTEGER NOT NULL, `habilidades` TEXT NOT NULL, `altura` REAL NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -106,27 +106,29 @@ class _$PokemonDao extends PokemonDao {
   )   : _queryAdapter = QueryAdapter(database, changeListener),
         _pokemonInsertionAdapter = InsertionAdapter(
             database,
-            'Pokemon',
+            'pokemon',
             (Pokemon item) => <String, Object?>{
                   'id': item.id,
                   'nome': item.nome,
-                  'tipo': item.tipo,
-                  'experiencia': item.altura,
-                  'habilidade': item.habilidade,
-                  'oculta': item.peso
+                  'tipos': item.tipos,
+                  'urlImagem': item.urlImagem,
+                  'baseExperiencia': item.baseExperiencia,
+                  'habilidades': item.habilidades,
+                  'altura': item.altura
                 },
             changeListener),
         _pokemonDeletionAdapter = DeletionAdapter(
             database,
-            'Pokemon',
+            'pokemon',
             ['id'],
             (Pokemon item) => <String, Object?>{
                   'id': item.id,
                   'nome': item.nome,
-                  'tipo': item.tipo,
-                  'altura': item.altura,
-                  'habilidade': item.habilidade,
-                  'peso': item.peso
+                  'tipos': item.tipos,
+                  'urlImagem': item.urlImagem,
+                  'baseExperiencia': item.baseExperiencia,
+                  'habilidades': item.habilidades,
+                  'altura': item.altura
                 },
             changeListener);
 
@@ -144,24 +146,26 @@ class _$PokemonDao extends PokemonDao {
   Future<List<Pokemon>> findAllPokemon() async {
     return _queryAdapter.queryList('SELECT * FROM Pokemon',
         mapper: (Map<String, Object?> row) => Pokemon(
-            row['id'] as int,
-            row['nome'] as String,
-            row['tipo'] as String,
-            row['experiencia'] as String,
-            row['habilidade'] as String,
-            row['oculta'] as String));
+            id: row['id'] as int,
+            nome: row['nome'] as String,
+            tipos: row['tipos'] as String,
+            urlImagem: row['urlImagem'] as String,
+            baseExperiencia: row['baseExperiencia'] as int,
+            habilidades: row['habilidades'] as String,
+            altura: row['altura'] as double));
   }
 
   @override
   Stream<Pokemon?> findPokemonById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM Pokemon WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Pokemon(
-            row['id'] as int,
-            row['nome'] as String,
-            row['tipo'] as String,
-            row['experiencia'] as String,
-            row['habilidade'] as String,
-            row['oculta'] as String),
+            id: row['id'] as int,
+            nome: row['nome'] as String,
+            tipos: row['tipos'] as String,
+            urlImagem: row['urlImagem'] as String,
+            baseExperiencia: row['baseExperiencia'] as int,
+            habilidades: row['habilidades'] as String,
+            altura: row['altura'] as double),
         arguments: [id],
         queryableName: 'Pokemon',
         isView: false);
