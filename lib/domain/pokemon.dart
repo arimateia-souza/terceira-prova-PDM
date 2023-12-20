@@ -1,11 +1,9 @@
-// Importe as dependências necessárias
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'pokemon')
 class Pokemon {
   @PrimaryKey(autoGenerate: true)
   late final int id;
-
   final String nome;
 
   @ColumnInfo(name: 'tipos')
@@ -14,7 +12,6 @@ class Pokemon {
   final String urlImagem;
   final int baseExperiencia;
   final String habilidades;
-
   final double altura;
 
   Pokemon({

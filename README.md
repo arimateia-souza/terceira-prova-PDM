@@ -31,23 +31,23 @@ preencher os itens do ListView. Cada item do ListView deverá ter um botão para
 Esse botão deve parecer uma Pokébola. Se o Pokémon já estiver capturado (veja a questão 4), o 
 botão de captura deve aparecer cinza e desativado. (2,0 pontos)
 
-✅⚠️4) Implemente o botão Capturar Pokémon da widget TelaCaptura que deve salvar os dados do 
+✅4) Implemente o botão Capturar Pokémon da widget TelaCaptura que deve salvar os dados do 
 Pokémon relacionado da ListView. Os dados dos Pokémons capturados devem ser salvos no banco 
 de dados local. (1,0 pontos)
 
-⚠️5) Implemente uma widget TelaPokemonCapturado e adicione um ListView. Liste todos os Pokémons 
+✅5) Implemente uma widget TelaPokemonCapturado e adicione um ListView. Liste todos os Pokémons 
 capturados que estão cadastrados no banco de dados local. Caso não haja nenhum Pokémon 
 capturado ainda, crie uma Widget de Text informando essa condição. (1,0 ponto)
 
-⚠️6) Adicione uma widget de GestureDetector nos ListItems da TelaPokemonCapturado para que com 
+✅6) Adicione uma widget de GestureDetector nos ListItems da TelaPokemonCapturado para que com 
 um toque simples a aplicação navegue para o TelaDetalhesPokemon e com o toque longo a 
 aplicação navegue para o TelaSoltarPokemon. (1,0 ponto)
 
-⚠️7) Crie uma widget chamada TelaDetalhesPokemon que recebe como parâmetro um ID e possui 
+✅7) Crie uma widget chamada TelaDetalhesPokemon que recebe como parâmetro um ID e possui 
 Texts e Imagens com os dados do registro. Carregue os dados do através da API e do banco de 
 dados para mostrar informações completas sobre o Pokémon. (0,5 ponto)
 
-⚠️8) Crie uma widget chamada TelaSoltarPokemon que recebe como parâmetro um ID e possui Texts e 
+✅8) Crie uma widget chamada TelaSoltarPokemon que recebe como parâmetro um ID e possui Texts e 
 Imagens com os dados do registro. Carregue os dados do banco de dados. Adicione dois botões, 
 uma para confirmar que o Pokémon será solto (delete do banco de dados local) e outro para 
 cancelar. (1,0 ponto)

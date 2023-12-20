@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:terceira_prova/domain/pokemon.dart';
-import 'package:terceira_prova/helpers/pokemon_database_helper.dart';
-//import 'package:terceira_prova/ui/telaSoltarPokemon.dart';
+import 'package:terceira_prova/pokemonDatabaseHelper.dart';
+import 'package:terceira_prova/ui/telaDetalhesPokemon.dart';
+import 'package:terceira_prova/ui/telaSoltarPokemon.dart';
 
 class TelaPokemonCapturado extends StatefulWidget {
   @override
@@ -28,26 +29,20 @@ class _TelaPokemonCapturadoState extends State<TelaPokemonCapturado> {
     return (await db.pokemonDao.findAllPokemon()) ?? [];
   }
 
-  // Método para adicionar um Pokémon capturado à lista
   Future<void> adicionarPokemonCapturado(Pokemon pokemon) async {
-    // Atualize a lista diretamente no banco de dados
     final db = await _pokemonDatabaseHelper.pokemonDatabase;
     await db.pokemonDao.insertPokemon(pokemon);
 
     setState(() {
-      // Recarregue a lista após adicionar um Pokémon
       _capturedPokemonList = _fetchCapturedPokemons();
     });
   }
 
-  // Método para remover um Pokémon capturado da lista
   Future<void> removerPokemonCapturado(Pokemon pokemon) async {
-    // Remova o Pokémon diretamente do banco de dados
     final db = await _pokemonDatabaseHelper.pokemonDatabase;
     await db.pokemonDao.deletePokemon(pokemon);
 
     setState(() {
-      // Recarregue a lista após remover um Pokémon
       _capturedPokemonList = _fetchCapturedPokemons();
     });
   }
@@ -65,9 +60,11 @@ class _TelaPokemonCapturadoState extends State<TelaPokemonCapturado> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return const Center(
-                child: Text('Erro ao carregar Pokémons capturados.'));
+                child: Text(
+                    'Ocorreu um erro ao tentar carregar os pokemons, tente novamente!'));
           } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-            return const Center(child: Text('Nenhum Pokémon capturado ainda.'));
+            return const Center(
+                child: Text('Hey, você ainda não capturou nenhum pokemon :( '));
           } else if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
@@ -75,8 +72,7 @@ class _TelaPokemonCapturadoState extends State<TelaPokemonCapturado> {
                 final pokemon = snapshot.data![index];
                 return GestureDetector(
                   onTap: () {
-                    // Navegar para TelaDetalhesPokemon
-                    /*Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => TelaDetalhesPokemon(
@@ -84,10 +80,9 @@ class _TelaPokemonCapturadoState extends State<TelaPokemonCapturado> {
                           pokemon: pokemon,
                         ),
                       ),
-                    );*/
+                    );
                   },
-                  /* onLongPress: () async {
-                    // Navegar para TelaSoltarPokemon e aguardar um resultado
+                  onLongPress: () async {
                     final resultado = await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -95,21 +90,25 @@ class _TelaPokemonCapturadoState extends State<TelaPokemonCapturado> {
                             TelaSoltarPokemon(pokemon: pokemon),
                       ),
                     );
-
-                    // Se o resultado for true, remover o Pokémon da lista
                     if (resultado == true) {
                       await removerPokemonCapturado(pokemon);
                     }
-                  },*/
+                  },
                   child: ListTile(
+                    leading: Image.network(
+                      pokemon.urlImagem,
+                      height:
+                          50, // Ajuste o tamanho da imagem conforme necessário
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
                     title: Text(pokemon.nome),
-                    // Adicione outros detalhes do Pokémon conforme necessário
                   ),
                 );
               },
             );
           } else {
-            return const Center(child: Text('Erro desconhecido.'));
+            return const Center(child: Text('Aconteceu um erro desconhecido'));
           }
         },
       ),

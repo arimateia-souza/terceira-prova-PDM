@@ -103,7 +103,7 @@ class _$PokemonDao extends PokemonDao {
   _$PokemonDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
+  )   : _queryAdapter = QueryAdapter(database),
         _pokemonInsertionAdapter = InsertionAdapter(
             database,
             'pokemon',
@@ -115,8 +115,7 @@ class _$PokemonDao extends PokemonDao {
                   'baseExperiencia': item.baseExperiencia,
                   'habilidades': item.habilidades,
                   'altura': item.altura
-                },
-            changeListener),
+                }),
         _pokemonDeletionAdapter = DeletionAdapter(
             database,
             'pokemon',
@@ -129,8 +128,7 @@ class _$PokemonDao extends PokemonDao {
                   'baseExperiencia': item.baseExperiencia,
                   'habilidades': item.habilidades,
                   'altura': item.altura
-                },
-            changeListener);
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -156,8 +154,8 @@ class _$PokemonDao extends PokemonDao {
   }
 
   @override
-  Stream<Pokemon?> findPokemonById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM Pokemon WHERE id = ?1',
+  Future<Pokemon?> findPokemonById(int id) async {
+    return _queryAdapter.query('SELECT * FROM Pokemon WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Pokemon(
             id: row['id'] as int,
             nome: row['nome'] as String,
@@ -166,9 +164,7 @@ class _$PokemonDao extends PokemonDao {
             baseExperiencia: row['baseExperiencia'] as int,
             habilidades: row['habilidades'] as String,
             altura: row['altura'] as double),
-        arguments: [id],
-        queryableName: 'Pokemon',
-        isView: false);
+        arguments: [id]);
   }
 
   @override
@@ -178,7 +174,7 @@ class _$PokemonDao extends PokemonDao {
   }
 
   @override
-  Future<void> deletePokemon(Pokemon pokemon) async {
-    await _pokemonDeletionAdapter.delete(pokemon);
+  Future<int> deletePokemon(Pokemon pokemon) {
+    return _pokemonDeletionAdapter.deleteAndReturnChangedRows(pokemon);
   }
 }

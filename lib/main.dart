@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:terceira_prova/ui/tela_Home.dart';
+import 'package:terceira_prova/ui/telaHome.dart';
 
 void main() {
   runApp(const MainApp());

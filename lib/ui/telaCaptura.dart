@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:terceira_prova/domain/pokemon.dart';
-import 'package:terceira_prova/helpers/pokemon_database_helper.dart';
+import 'package:terceira_prova/pokemonDatabaseHelper.dart';
 
 class TelaCaptura extends StatefulWidget {
   @override
@@ -16,8 +16,7 @@ class _TelaCapturaState extends State<TelaCaptura> {
   late bool _conectado;
   late PokemonDatabaseHelper _pokemonDatabaseHelper;
 
-  final String _pokeApiBaseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  //final String _apiKey = 'Project PDM';
+  final String _pokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
 
   @override
   void initState() {
@@ -42,7 +41,7 @@ class _TelaCapturaState extends State<TelaCaptura> {
   }
 
   Future<void> _carregarDetalhesPokemon(int id) async {
-    final response = await http.get(Uri.parse('$_pokeApiBaseUrl/$id/'));
+    final response = await http.get(Uri.parse('$_pokeApiUrl/$id/'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
@@ -59,17 +58,17 @@ class _TelaCapturaState extends State<TelaCaptura> {
         ));
       });
     } else {
-      throw Exception('Falha ao carregar detalhes do Pokémon');
+      throw Exception('Falha ao carregar os detalhes do Pokemon');
     }
   }
 
   Future<void> _carregarPokemonsDisponiveis() async {
-    List<int> idsPokemons = List.generate(1017, (index) => index + 1);
-    idsPokemons.shuffle();
+    List<int> idPokemons = List.generate(1017, (index) => index + 1);
+    idPokemons.shuffle();
 
-    List<int> idsSelecionados = idsPokemons.sublist(0, 6);
+    List<int> idSelecionados = idPokemons.sublist(0, 6);
 
-    for (int id in idsSelecionados) {
+    for (int id in idSelecionados) {
       await _carregarDetalhesPokemon(id);
     }
   }
@@ -88,28 +87,46 @@ class _TelaCapturaState extends State<TelaCaptura> {
 
     return Card(
       child: ListTile(
-        title: Text(pokemon.nome),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('ID: ${pokemon.id}'),
-            if (pokemon.urlImagem != null) // Verifica se há uma URL de imagem
-              Image.network(
-                pokemon.urlImagem!,
-                height: 50, // Ajuste a altura conforme necessário
-                width: 50, // Ajuste a largura conforme necessário
-                fit: BoxFit.cover,
-              ),
-          ],
+        title: Text(
+          pokemon.nome.toUpperCase(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        trailing: ElevatedButton(
-          onPressed: capturado ? null : () => _capturarPokemon(pokemon),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-              capturado ? Colors.grey : Colors.yellow,
-            ),
+        subtitle: SizedBox(
+          height: 200, // Aumente o espaço para acomodar a pokebola
+          width: 200,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 200,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.network(
+                        pokemon.urlImagem!,
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: GestureDetector(
+                        onTap:
+                            capturado ? null : () => _capturarPokemon(pokemon),
+                        child: Icon(
+                          Icons.catching_pokemon,
+                          size: 60, // Ajuste o tamanho da pokebola
+                          color: capturado ? Colors.grey : Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          child: const Icon(Icons.catching_pokemon),
         ),
       ),
     );

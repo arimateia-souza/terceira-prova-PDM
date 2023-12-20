@@ -7,11 +7,11 @@ abstract class PokemonDao {
   Future<int> insertPokemon(Pokemon pokemon);
 
   @delete
-  Future<void> deletePokemon(Pokemon pokemon);
+  Future<int> deletePokemon(Pokemon pokemon);
 
   @Query('SELECT * FROM Pokemon')
   Future<List<Pokemon>> findAllPokemon();
 
   @Query('SELECT * FROM Pokemon WHERE id = :id')
-  Stream<Pokemon?> findPokemonById(int id);
+  Future<Pokemon?> findPokemonById(int id);
 }

@@ -1,19 +1,24 @@
-//import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:terceira_prova/domain/pokemon.dart';
 
 class PokeApi {
-  Future fetchData() async {
-    final response =
-        await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/'));
+  Future<Pokemon?> getPokemonDetails(int id) async {
+    final apiUrl = 'https://pokeapi.co/api/v2/pokemon/$id';
 
-    if (response.statusCode == 200) {
-      // Se a requisição for bem-sucedida, decodifique os dados JSON
-      var data = json.decode(response.body);
-      return data;
-    } else {
-      // Se a requisição falhar, lance uma exceção
-      throw Exception('Failed to load data');
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return Pokemon.fromMap(data);
+      } else {
+        print('Erro na busca dos dados do Pokémon: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao buscar dados do Pokémon: $e');
+      return null;
     }
   }
 }
